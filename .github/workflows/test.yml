@@ -4,7 +4,12 @@ on:
         types:
             - opened
     workflow_dispatch:
-            
+    push:
+        branches:
+            - master
+        paths:
+            - '.github/**'
+                
 
 jobs:
     test:
