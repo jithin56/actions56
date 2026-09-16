@@ -26,10 +26,22 @@ jobs:
               run: npm ci
             - name: Run tests
               run: npm test
+            - run: |
+                mkdir -p test-results
+                echo '{"testResults": "All tests passed!"}' > test-results/test-results.json
+            - name: upload test results
+              uses: actions/upload-artifact@v7
+              with:
+                name: test-results
+                path: test-results.json
     deploy:
         runs-on: ubuntu-latest
         needs: test
         steps:
+            - name: Download test results
+              uses: actions/download-artifact@v7
+              with:
+                name: test-results
             - name: Checkout code
               uses: actions/checkout@v5
             - name: Set up Node.js
